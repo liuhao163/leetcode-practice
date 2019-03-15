@@ -38,7 +38,6 @@ public class LongestPalindrome {
             return s;
         }
 
-        String ret = "";
         int l = 0;
         int r = 0;
         for (int i = 0; i <= s.length(); i++) {
