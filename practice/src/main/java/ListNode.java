@@ -22,36 +22,33 @@ public class ListNode {
         node.next.next.next.next = new ListNode(5);
         System.out.println(node);
 
-        // 反转方法1
-        ListNode cur=node;
-        ListNode ret=null;
-        ListNode prev=null;
-        while(cur!=null){
-            ListNode nextNode=cur.next;
-            cur.next=prev;
-            prev=cur;
-            if(nextNode==null){
-                ret=cur;
-            }
+        // 反转链表1
+        // ListNode cur = (ListNode) node;
+        // ListNode prev = null;
+        // ListNode res = null;
+        // while (cur != null) {
+        // ListNode nextNode = cur.next;
+        // cur.next = prev;
+        // prev = cur;
+        // if (nextNode == null) {
+        // res = cur;
+        // }
+        // cur = nextNode;
+        // }
+        // System.out.println(res);
 
-            cur=nextNode;
+        // 反转链表2
+        ListNode cur = node;
+        ListNode res = null;
+        while (cur != null) {
+            ListNode newNode = new ListNode(cur.val);
+            cur = cur.next;
+            
+            newNode.next = res;
+            res = newNode;
+            
         }
 
-        System.out.println(ret);
-
-//        //反转方法2
-//        ListNode ret2=null;
-//        ListNode cur2=node;
-//        while(cur2!=null){
-//            //创建新的节点
-//            ListNode newNode=new ListNode(cur2.val);
-//
-//            //建立新关系.把这个新节点保存起来作为下一个节点的next
-//            newNode.next = ret2;
-//            ret2=newNode;
-//
-//            cur2=cur2.next;
-//        }
-//        System.out.println(ret2);
+        System.out.println(res);
     }
 }
