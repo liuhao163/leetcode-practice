@@ -1,7 +1,7 @@
 package com.leetcode.structs.linked;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: liuhaoeric
@@ -37,6 +37,12 @@ public class Node {
                 '}';
     }
 
+    /**
+     * 找中间节点
+     *
+     * @param node
+     * @return
+     */
     public static Node findMid(Node node) {
         if (node == null || node.next == null || node.next.next == null) {
             return node;
@@ -54,7 +60,7 @@ public class Node {
     }
 
     /**
-     * 可用快慢指针
+     * 可用快慢指针找是否有环
      *
      * @param node
      * @return
@@ -78,75 +84,69 @@ public class Node {
         return false;
     }
 
-    public static Node mergeSortedNode(Node a, Node b) {
-        Node curA = a;
-        Node curB = b;
-
-        Node ret = new Node(null);
-        Node head = ret;
-        while (curA != null && curB != null) {
-            Node next = ret;
-
-            if (curA.val < curB.val) {
-                next.next = new Node(curA.val);
-                next.next.next = new Node(curB.val);
-            } else {
-                next.next = new Node(curB.val);
-                next.next.next = new Node(curA.val);
-            }
-
-            curA = curA.next;
-            curB = curB.next;
-            ret = next.next.next;
-            System.out.println(ret);
-            System.out.println(next);
-
-        }
-        System.out.println("======");
-        System.out.println(head);
-        System.out.println(ret);
-        if (curA != null) {
-            ret.next = curA;
-        }
-        if (curB != null) {
-            ret.next = curB;
-        }
-
-        return head.next;
-    }
-
+    /**
+     * 有序俩表合并
+     *
+     * @param a
+     * @param b
+     * @return
+     */
     public static Node merge(Node a, Node b) {
-        if (a == null || b == null) {
-            return a == null ? b : a;
-        }
-
         Node head = new Node(null);
         Node ret = head;
 
-        Node curA = a;
-        Node curB = b;
-        while (curA != null && curB != null) {
-            if (curA.val < curB.val) {
-                ret.next = curA;
-                curA = curA.next;
+        Node cura = a;
+        Node curb = b;
+        while (cura != null && curb != null) {
+            if (cura.val < curb.val) {
+                ret.next = cura;
+                cura = cura.next;
             } else {
-                ret.next = curB;
-                curB = curB.next;
+                ret.next = curb;
+                curb = curb.next;
             }
             ret = ret.next;
         }
 
-        if (curA != null) {
-            ret.next = curA;
+        if (cura != null) {
+            ret.next = cura;
         }
-        if (curB != null) {
-            ret.next = curB;
+        if (curb != null) {
+            ret.next = curb;
         }
-
-
         return head.next;
     }
 
+    /**
+     * 删除倒数第几个节点
+     *
+     * @return
+     */
+    public static Node removeNodeByDescPosition(Node a, int position) {
+        if (a == null) {
+            return null;
+        }
+        List<Node> list = new ArrayList<>();
+
+        Node head = new Node(null);
+        head.next = a;
+        Node tmp = head;
+        while (tmp != null) {
+            list.add(tmp);
+            tmp = tmp.next;
+        }
+        //超过限制
+        if (position >= list.size()) {
+            return head.next;
+        }
+
+        //找到要删的节点的前置节点
+        Node n;
+        int nodeidx = list.size() - position;
+        n = list.get(nodeidx - 1);
+        n.next = n.next.next;
+        return head.next;
+    }
 
     public static Node reverseNode(Node node) {
         return null;
@@ -154,12 +154,12 @@ public class Node {
 
     public static void main(String[] args) {
         Node a = new Node(1);
-        Node b = new Node(3);
-        Node c = new Node(5);
-        Node d = new Node(7);
-        Node e = new Node(9);
-        Node f = new Node(10);
-        Node g = new Node(14);
+        Node b = new Node(2);
+        Node c = new Node(3);
+        Node d = new Node(4);
+        Node e = new Node(5);
+        Node f = new Node(6);
+        Node g = new Node(7);
         a.next = b;
         b.next = c;
         c.next = d;
@@ -167,26 +167,28 @@ public class Node {
         e.next = f;
         f.next = g;
 
-        System.out.println(Node.findMid(a));
+//        System.out.println(Node.findMid(a));
+//
+//        System.out.println(Node.checkNodeLoop(a));
+//
+//
+//        Node a1 = new Node(0);
+//        Node b1 = new Node(2);
+//        Node c1 = new Node(4);
+//        Node d1 = new Node(6);
+//        Node e1 = new Node(8);
+//        Node f1 = new Node(10);
+//        Node g1 = new Node(11);
+//        a1.next = b1;
+//        b1.next = c1;
+//        c1.next = d1;
+//        d1.next = e1;
+//        e1.next = f1;
+//        f1.next = g1;
+//
+//        System.out.println(Node.merge(a, a1));
 
-        System.out.println(Node.checkNodeLoop(a));
-
-
-        Node a1 = new Node(0);
-        Node b1 = new Node(2);
-        Node c1 = new Node(4);
-        Node d1 = new Node(6);
-        Node e1 = new Node(8);
-        Node f1 = new Node(10);
-        Node g1 = new Node(11);
-        a1.next = b1;
-        b1.next = c1;
-        c1.next = d1;
-        d1.next = e1;
-        e1.next = f1;
-        f1.next = g1;
-
-        System.out.println(Node.merge(a, a1));
+        System.out.println(Node.removeNodeByDescPosition(new Node(10), 1));
     }
 }
 
