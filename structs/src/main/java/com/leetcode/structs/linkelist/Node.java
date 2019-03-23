@@ -1,7 +1,9 @@
-package com.leetcode.structs.linked;
+package com.leetcode.structs.linkelist;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: liuhaoeric
