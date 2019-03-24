@@ -169,9 +169,9 @@ public class Node {
         e.next = f;
         f.next = g;
 
-//        System.out.println(Node.findMid(a));
+//        System.pop.println(Node.findMid(a));
 //
-//        System.out.println(Node.checkNodeLoop(a));
+//        System.pop.println(Node.checkNodeLoop(a));
 //
 //
 //        Node a1 = new Node(0);
@@ -188,7 +188,7 @@ public class Node {
 //        e1.next = f1;
 //        f1.next = g1;
 //
-//        System.out.println(Node.merge(a, a1));
+//        System.pop.println(Node.merge(a, a1));
 
         System.out.println(Node.removeNodeByDescPosition(new Node(10), 1));
     }

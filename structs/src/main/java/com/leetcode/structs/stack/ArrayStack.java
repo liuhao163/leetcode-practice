@@ -18,7 +18,7 @@ public class ArrayStack {
         arr = new String[size];
     }
 
-    public void enter(String s) {
+    public void push(String s) {
         if (count == size) {
             System.out.println("full");
             return;
@@ -27,13 +27,12 @@ public class ArrayStack {
         count++;
     }
 
-    public String out() {
+    public String pop() {
         if (count == 0) {
             return null;
         }
         String ret = arr[count - 1];
         count--;
-//        arr = Arrays.copyOf(arr, count, String[].class);
         return ret;
     }
 
@@ -61,38 +60,38 @@ public class ArrayStack {
 
     public static void main(String[] args) {
         ArrayStack arrayStack = new ArrayStack(10);
-        arrayStack.enter("a");
-        arrayStack.enter("b");
-        arrayStack.enter("c");
-        arrayStack.enter("d");
-        arrayStack.enter("e");
-        arrayStack.enter("f");
-        arrayStack.enter("g");
-        arrayStack.enter("h");
-        arrayStack.enter("i");
-        arrayStack.enter("j");
-        arrayStack.enter("k");
-        arrayStack.enter("l");
+        arrayStack.push("a");
+        arrayStack.push("b");
+        arrayStack.push("c");
+        arrayStack.push("d");
+        arrayStack.push("e");
+        arrayStack.push("f");
+        arrayStack.push("g");
+        arrayStack.push("h");
+        arrayStack.push("i");
+        arrayStack.push("j");
+        arrayStack.push("k");
+        arrayStack.push("l");
 
         System.out.println(arrayStack);
 
         while (!arrayStack.isEmpty()) {
-            System.out.print(arrayStack.out() + ",");
+            System.out.print(arrayStack.pop() + ",");
         }
 
         System.out.println(arrayStack);
-        arrayStack.enter("1");
-        arrayStack.enter("2");
-        arrayStack.enter("3");
-        arrayStack.enter("4");
-        arrayStack.enter("5");
-        arrayStack.enter("6");
-        arrayStack.enter("7");
-        arrayStack.enter("8");
-        arrayStack.enter("9");
-        arrayStack.enter("10");
-        arrayStack.enter("11");
-        arrayStack.enter("12");
+        arrayStack.push("1");
+        arrayStack.push("2");
+        arrayStack.push("3");
+        arrayStack.push("4");
+        arrayStack.push("5");
+        arrayStack.push("6");
+        arrayStack.push("7");
+        arrayStack.push("8");
+        arrayStack.push("9");
+        arrayStack.push("10");
+        arrayStack.push("11");
+        arrayStack.push("12");
 
         System.out.println(arrayStack);
 
