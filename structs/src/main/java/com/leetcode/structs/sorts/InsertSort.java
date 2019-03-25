@@ -6,6 +6,25 @@ import java.util.Arrays;
  * @author <a href=mailto:ericliu@fivewh.com>ericliu</a>,Date:2019/3/25
  */
 public class InsertSort {
+
+    public int[] sortDesc(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int tmp = a[i];
+            int j = i - 1;
+            for (; j >= 0; j--) {
+                if (a[j] < tmp) {
+                    a[j + 1] = a[j];
+                } else {
+                    break;
+                }
+            }
+            a[j + 1] = tmp;
+        }
+
+        return a;
+    }
+
+
     public int[] sort(int[] array) {
 
         //从数组第二个开始循环排序，第一项作为已排序区域
@@ -28,7 +47,7 @@ public class InsertSort {
                 }
             }
             //因为跳出循环时候,做了一次j--所以。
-            array[j+1] = value;
+            array[j + 1] = value;
         }
 
         return array;
@@ -39,5 +58,7 @@ public class InsertSort {
         int[] array = new int[]{80, 3, 9, 8, 9, 77, 35, 78, 90};
 
         System.out.println(Arrays.toString(new InsertSort().sort(array)));
+
+        System.out.println(Arrays.toString(new InsertSort().sortDesc(array)));
     }
 }
