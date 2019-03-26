@@ -52,6 +52,7 @@ public class InsertSort {
         return array;
     }
 
+
     public static void main(String[] args) {
 
         int[] array = new int[]{80, 3, 9, 8, 9, 77, 35, 78, 90};
