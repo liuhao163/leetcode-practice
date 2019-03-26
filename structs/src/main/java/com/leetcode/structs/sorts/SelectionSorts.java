@@ -7,24 +7,35 @@ import java.util.Arrays;
  */
 public class SelectionSorts {
 
+    /**
+     * 选择排序，循环数组，每次都找到数组最小值，然后和当前元素互换位置，知道结束，
+     * 时间负责度最好O(n*n)，最坏O(n*n)，平均都是O(n*n)，且不稳定
+     * @param a
+     * @return
+     */
     public int[] sort(int[] a) {
         for (int i = 0; i < a.length; i++) {
-            int minIdx = i;
-            int min = a[i];
-            for (int j = i + 1; j < a.length; j++) {
-                if (min > a[j]) {
-                    minIdx = j;
+
+            //记录最小值和索引
+            int min=a[i];
+            int minIdx=i;
+
+            //循环查找最小值
+            for(int j=i+1;j<a.length;j++){
+                if(a[j]<min){
                     min=a[j];
+                    minIdx=j;
                 }
             }
 
-            if (i != minIdx) {
-                int tmp=a[i];
-                a[i] = a[minIdx];
-                a[minIdx] = tmp;
+            //如果当前值不是最小值，最小值和当前值互换位置
+            if(i!=minIdx){
+                int tmp=a[minIdx];
+                a[minIdx]=a[i];
+                a[i]=tmp;
             }
-
         }
+
         return a;
     }
 
