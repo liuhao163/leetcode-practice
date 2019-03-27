@@ -13,36 +13,35 @@ public class QuickSort {
         System.out.println(Arrays.toString(array));
     }
 
-    public void sort(int a[], int start, int end) {
-        if (start >= end) {
+    private void sort(int[] a, int s, int e) {
+        if (s >= e) {
             return;
         }
 
-        int poivt = getPoivt(a, start, end);
-
-        sort(a, start, poivt-1);
-        sort(a, poivt, end);
-
-        return;
+        int poivt = poivt(a, s, e);
+        sort(a, s, poivt - 1);//todo 重点
+        sort(a, poivt, e);//todo 重点
     }
 
-    private int getPoivt(int[] a, int start, int end) {
-        int r = a[end];
+    private int poivt(int[] a, int s, int e) {
+        int swapIdx = s;
+        int r = a[e];
 
-        int swap = start;
-        for (int i = start; i <= end-1; i++) {
-            if (a[i] <= r) {
-                int tmp = a[swap];
-                a[swap] = a[i];
-                a[i] = tmp;
-
-                swap++;
+        for (int i = s; i <= e - 1; i++) {//重点
+            if (a[i] <= r) {//todo 重点
+                int tmp = a[i];
+                a[i] = a[swapIdx];
+                a[swapIdx] = tmp;
+                swapIdx++;//扩大
             }
         }
 
-        int tmp=a[swap];
-        a[swap]=a[end];
-        a[end]=tmp;
-        return swap;
+        int tmp = a[swapIdx];
+        a[swapIdx] = r;
+        a[e] = tmp;
+
+        return swapIdx;
     }
+
+
 }
