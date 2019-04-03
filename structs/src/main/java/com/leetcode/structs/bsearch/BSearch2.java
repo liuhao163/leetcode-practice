@@ -14,7 +14,54 @@ public class BSearch2 {
         searchFirstEq(a, 8);
         searchLastEq(a, 8);
         searchRecentLte(a, 77);
-        searchRecentGte(a,77);
+        searchRecentGte(a, 77);
+
+        a = new int[]{5,1,2,3,4};
+        int target = 1;
+        System.out.println(searchLoopArray(a, target));
+    }
+
+    private static int searchLoopArray(int[] a, int d) {
+        int l = 0;
+        int h = a.length - 1;
+        while (l <= h) {
+            if (a[l] == d) {
+                return l;
+            }
+            if (a[h] == d) {
+                return h;
+            }
+            int m = l + ((h - l) >> 1);
+            if (a[m] == d) {
+                return m;
+            }
+
+            if (a[m] < a[l]) {
+                if (a[m] > d) {
+                    h = m - 1;
+                } else {
+                    if (d < a[h]) {
+                        l = m + 1;
+                    } else {
+                        h = m - 1;
+                    }
+                }
+            }else {
+//                a[m]>l
+                if(a[m]<d){
+                    l=m+1;
+                }else{
+                    if(d>a[l]){
+                        h=m-1;
+                    }else{
+                        l=m+1;
+                    }
+                }
+            }
+
+        }
+
+        return -1;
     }
 
 
@@ -113,19 +160,21 @@ public class BSearch2 {
             //如题：找d右边的第一个值，如果a[m]>=d，要一直向左找，找到m==0或者m的左边小于d的数，返回m
             // 如果a[m-1]依然大于d，说明要照的数在左边，h=m-1
             // 如果a[m]<d，说明要照的数在右边，l=m+1
-            if(a[m]>=d){
-                if(m==0|| a[m-1]<d){
+            if (a[m] >= d) {
+                if (m == 0 || a[m - 1] < d) {
                     System.out.printf("第一个(最近的大于等于)大于等于%s的数的(Index=%s,v=%s)\n", d, m, a[m]);
                     return m;
                 }
-                h=m-1;
-            }else{
+                h = m - 1;
+            } else {
                 //a[m]<d
-                l=m+1;
+                l = m + 1;
             }
 
         }
 
         return -1;
     }
+
+
 }
