@@ -151,7 +151,15 @@ public class Node {
     }
 
     public static Node reverseNode(Node node) {
-        return null;
+        Node prev = null;
+        Node cur = node;
+        while (cur!=null) {
+            Node next = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = next;
+        }
+        return prev;
     }
 
     public static void main(String[] args) {
@@ -168,6 +176,9 @@ public class Node {
         d.next = e;
         e.next = f;
         f.next = g;
+        System.out.println(a);
+
+        System.out.println(reverseNode(a));
 
 //        System.pop.println(Node.findMid(a));
 //
@@ -190,7 +201,7 @@ public class Node {
 //
 //        System.pop.println(Node.merge(a, a1));
 
-        System.out.println(Node.removeNodeByDescPosition(new Node(10), 1));
+//        System.out.println(Node.removeNodeByDescPosition(new Node(10), 1));
     }
 }
 
