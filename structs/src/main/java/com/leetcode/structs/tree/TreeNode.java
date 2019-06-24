@@ -31,41 +31,39 @@ public class TreeNode {
             return;
         }
 
-
-
-        if (n.value == v) {
-            throw new IllegalArgumentException("value duplicate v=" + v);
-        } else if (v < n.value) {
-            if(n.left==null){
-                n.left = new TreeNode(v);
-                return;
-            }
-            InsertNode(n.left, v);
-        } else if (v > n.value) {
-            if(n.right==null){
-                n.right = new TreeNode(v);
-                return;
-            }
-            InsertNode(n.right, v);
-        }
-
-//        while (n != null) {
-//            if (v < n.value) {
-//                if (n.left == null) {
-//                    n.left = new TreeNode(v);
-//                    return;
-//                }
-//                n = n.left;
-//            } else if (v > n.value) {
-//                if (n.right == null) {
-//                    n.right = new TreeNode(v);
-//                    return;
-//                }
-//                n = n.right;
-//            } else {
-//                throw new IllegalArgumentException("value duplicate v=" + v);
+//        if (n.value == v) {
+//            throw new IllegalArgumentException("value duplicate v=" + v);
+//        } else if (v < n.value) {
+//            if(n.left==null){
+//                n.left = new TreeNode(v);
+//                return;
 //            }
+//            InsertNode(n.left, v);
+//        } else if (v > n.value) {
+//            if(n.right==null){
+//                n.right = new TreeNode(v);
+//                return;
+//            }
+//            InsertNode(n.right, v);
 //        }
+
+        while (n != null) {
+            if (v < n.value) {
+                if (n.left == null) {
+                    n.left = new TreeNode(v);
+                    return;
+                }
+                n = n.left;
+            } else if (v > n.value) {
+                if (n.right == null) {
+                    n.right = new TreeNode(v);
+                    return;
+                }
+                n = n.right;
+            } else {
+                throw new IllegalArgumentException("value duplicate v=" + v);
+            }
+        }
     }
 
     public static void main(String[] args) {
