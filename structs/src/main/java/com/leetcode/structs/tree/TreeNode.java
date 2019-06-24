@@ -66,6 +66,46 @@ public class TreeNode {
         }
     }
 
+
+    public static TreeNode findNodeByValue(TreeNode tree, int value) {
+        TreeNode p = tree;
+
+        if (p.value == value) {
+            return p;
+        }
+
+        if (value < p.value && p.left!=null) {
+          return   findNodeByValue(p.left, value);
+        }
+
+        if(value>p.value && p.right!=null){
+          return   findNodeByValue(p.right, value);
+        }
+
+//        while (p != null) {
+//            if (p.value == value) {
+//                return p;
+//            }
+//            if (value > p.value) {
+//                if (p.right != null) {
+//                    p = p.right;
+//                } else {
+//                    return null;
+//                }
+//            } else {
+////                value<p.value
+//                if (p.left != null) {
+//                    p = p.left;
+//                } else {
+//                    return null;
+//                }
+//            }
+//        }
+
+        return null;
+
+    }
+
     public static void main(String[] args) {
         TreeNode t = new TreeNode(33);
         InsertNode(t, 16);
@@ -76,7 +116,6 @@ public class TreeNode {
         InsertNode(t.left.right, 25);
         InsertNode(t.left.right.right, 19);
         InsertNode(t.left.right.right, 27);
-
         InsertNode(t, 50);
         InsertNode(t.right, 34);
         InsertNode(t.right, 58);
@@ -85,5 +124,7 @@ public class TreeNode {
         InsertNode(t.right.right.left, 55);
 
         System.out.println(t);
+        System.out.println("find=======");
+        System.out.println(findNodeByValue(t, 58));
     }
 }
