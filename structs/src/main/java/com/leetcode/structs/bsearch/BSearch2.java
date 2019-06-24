@@ -16,7 +16,7 @@ public class BSearch2 {
         searchRecentLte(a, 77);
         searchRecentGte(a, 77);
 
-        a = new int[]{5,1,2,3,4};
+        a = new int[]{5, 1, 2, 3, 4};
         int target = 1;
         System.out.println(searchLoopArray(a, target));
     }
@@ -24,40 +24,47 @@ public class BSearch2 {
     private static int searchLoopArray(int[] a, int d) {
         int l = 0;
         int h = a.length - 1;
+
         while (l <= h) {
             if (a[l] == d) {
                 return l;
             }
+
             if (a[h] == d) {
                 return h;
             }
+
             int m = l + ((h - l) >> 1);
             if (a[m] == d) {
                 return m;
             }
 
-            if (a[m] < a[l]) {
-                if (a[m] > d) {
-                    h = m - 1;
+            if (a[m] > a[l]) {
+                if (d > a[m]) {
+                    l = m + 1;
                 } else {
-                    if (d < a[h]) {
-                        l = m + 1;
-                    } else {
+//                    d<a[m]
+                    if (d > a[l]) {
                         h = m - 1;
+                    } else {
+                        l = m + 1;
                     }
                 }
-            }else {
-//                a[m]>l
-                if(a[m]<d){
-                    l=m+1;
-                }else{
-                    if(d>a[l]){
-                        h=m-1;
-                    }else{
-                        l=m+1;
+            } else {
+                // a[m]<a[l]
+
+                if (d < a[m]) {
+                    h = m - 1;
+                } else {
+                    if (d > a[h]) {
+                        h = m - 1;
+                    } else {
+                        //d<a[h]
+                        l = m + 1;
                     }
                 }
             }
+
 
         }
 
