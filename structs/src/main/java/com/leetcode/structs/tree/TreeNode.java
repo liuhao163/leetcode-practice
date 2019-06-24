@@ -24,7 +24,7 @@ public class TreeNode {
                 "}";
     }
 
-    public static void InsertNode(TreeNode treeNode, int v) {
+    public static void insertNode(TreeNode treeNode, int v) {
         TreeNode n = treeNode;
         if (n == null) {
             treeNode = new TreeNode(v);
@@ -38,13 +38,13 @@ public class TreeNode {
 //                n.left = new TreeNode(v);
 //                return;
 //            }
-//            InsertNode(n.left, v);
+//            insertNode(n.left, v);
 //        } else if (v > n.value) {
 //            if(n.right==null){
 //                n.right = new TreeNode(v);
 //                return;
 //            }
-//            InsertNode(n.right, v);
+//            insertNode(n.right, v);
 //        }
 
         while (n != null) {
@@ -74,12 +74,12 @@ public class TreeNode {
             return p;
         }
 
-        if (value < p.value && p.left!=null) {
-          return   findNodeByValue(p.left, value);
+        if (value < p.value && p.left != null) {
+            return findNodeByValue(p.left, value);
         }
 
-        if(value>p.value && p.right!=null){
-          return   findNodeByValue(p.right, value);
+        if (value > p.value && p.right != null) {
+            return findNodeByValue(p.right, value);
         }
 
 //        while (p != null) {
@@ -103,28 +103,92 @@ public class TreeNode {
 //        }
 
         return null;
+    }
+
+    public static TreeNode delNode(TreeNode tree, int v) {
+        if (tree == null)
+            return null;
+
+        TreeNode parent = null;
+        TreeNode node = tree;
+
+        while (node != null) {
+            if (v < node.value) {
+                parent = node;
+                node = node.left;
+            } else if (v > node.value) {
+                parent = node;
+                node = node.right;
+            } else {
+                break;
+            }
+        }
+
+        if (node == null) {
+            return tree;
+        }
+
+        //如果俩个子树都存在，
+        // 找第一个比他大的数（右子树的左子树叶子节点）
+        // 将这个待删除节点替换成叶子节点，然后删除这个叶子节点
+        while (node.left != null && node.right != null) {
+            TreeNode rightMin = node.right;
+            TreeNode rightMinParent = node;
+            while (rightMin.left != null) {
+                rightMinParent = rightMin;
+                rightMin = rightMin.left;
+            }
+
+            node.value = rightMin.value;
+            parent = rightMinParent;
+            node = rightMin;
+        }
+
+        TreeNode child = null;
+        if (node.left != null) {
+            child = node.left;
+        } else if (node.right != null) {
+            child = node.right;
+        }
+
+        if (parent == null) {
+            tree = child;
+            return tree;
+        }
+
+        if(node.value<parent.value){
+            parent.left=child;
+        }else{
+            parent.right=child;
+        }
+
+        return tree;
 
     }
 
     public static void main(String[] args) {
         TreeNode t = new TreeNode(33);
-        InsertNode(t, 16);
-        InsertNode(t.left, 13);
-        InsertNode(t.left.left, 15);
-        InsertNode(t.left, 18);
-        InsertNode(t.left.right, 17);
-        InsertNode(t.left.right, 25);
-        InsertNode(t.left.right.right, 19);
-        InsertNode(t.left.right.right, 27);
-        InsertNode(t, 50);
-        InsertNode(t.right, 34);
-        InsertNode(t.right, 58);
-        InsertNode(t.right.right, 51);
-        InsertNode(t.right.right, 66);
-        InsertNode(t.right.right.left, 55);
+        insertNode(t, 16);
+        insertNode(t.left, 13);
+        insertNode(t.left.left, 15);
+        insertNode(t.left, 18);
+        insertNode(t.left.right, 17);
+        insertNode(t.left.right, 25);
+        insertNode(t.left.right.right, 19);
+        insertNode(t.left.right.right, 27);
+        insertNode(t, 50);
+        insertNode(t.right, 34);
+        insertNode(t.right, 58);
+        insertNode(t.right.right, 51);
+        insertNode(t.right.right, 66);
+        insertNode(t.right.right.left, 55);
 
         System.out.println(t);
         System.out.println("find=======");
         System.out.println(findNodeByValue(t, 58));
+
+        System.out.println("del=======");
+        t=delNode(t, 18);
+        System.out.println(t);
     }
 }
