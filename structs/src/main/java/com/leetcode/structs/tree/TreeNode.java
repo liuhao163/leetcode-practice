@@ -30,41 +30,39 @@ public class TreeNode {
     }
 
     public static void insertNode(TreeNode treeNode, int v) {
-        TreeNode n = treeNode;
-        if (n == null) {
-            treeNode = new TreeNode(v);
-            return;
-        }
 
-//         if (v < n.value) {
-//            if(n.left==null){
-//                n.left = new TreeNode(v);
-//                return;
+//        TreeNode p = treeNode;
+//        while (p != null) {
+//            if (v<p.value) {
+//                if (p.left == null) {
+//                    p.left = new TreeNode(v);
+//                    return;
+//                }
+//
+//                p = p.left;
+//            } else {
+//                //
+//                if (p.right == null) {
+//                    p.right = new TreeNode(v);
+//                    return;
+//                }
+//
+//                p = p.right;
 //            }
-//            insertNode(n.left, v);
-//        } else if (v >= n.value) {
-//            if(n.right==null){
-//                n.right = new TreeNode(v);
-//                return;
-//            }
-//            insertNode(n.right, v);
 //        }
-
-        while (n != null) {
-            if (v < n.value) {
-                if (n.left == null) {
-                    n.left = new TreeNode(v);
-                    break;
-                }
-                n = n.left;
-            } else if (v >= n.value) {
-                //如果相等和大于一样处理往右边节点插入
-                if (n.right == null) {
-                    n.right = new TreeNode(v);
-                    break;
-                }
-                n = n.right;
+        TreeNode p = treeNode;
+        if (v < p.value) {
+            if (p.left == null) {
+                p.left = new TreeNode(v);
+                return;
             }
+            insertNode(p.left, v);
+        } else if (v >= p.value) {
+            if (p.right == null) {
+                p.right = new TreeNode(v);
+                return;
+            }
+            insertNode(p.right, v);
         }
     }
 
@@ -77,33 +75,24 @@ public class TreeNode {
 //        }
 
         List<TreeNode> treeNodes = new ArrayList<>();
-        if (value < p.value && p.left != null) {
-            findNodeByValue(p.left, value, treeNodes);
-        }
-
-        if (value >= p.value && p.right != null) {
-            findNodeByValue(p.right, value, treeNodes);
-        }
-
-//        while (p != null) {
-//            if (p.value == value) {
-//                return p;
-//            }
-//            if (value > p.value) {
-//                if (p.right != null) {
-//                    p = p.right;
-//                } else {
-//                    return null;
-//                }
-//            } else {
-////                value<p.value
-//                if (p.left != null) {
-//                    p = p.left;
-//                } else {
-//                    return null;
-//                }
-//            }
+//        if (value < p.value && p.left != null) {
+//            findNodeByValue(p.left, value, treeNodes);
 //        }
+//
+//        if (value >= p.value && p.right != null) {
+//            findNodeByValue(p.right, value, treeNodes);
+//        }
+
+        while (p != null) {
+            if (value >= p.value) {
+                if (p.value == value) {
+                    treeNodes.add(p);
+                }
+                p = p.right;
+            } else {
+                p = p.left;
+            }
+        }
 
         return treeNodes;
     }
@@ -234,13 +223,30 @@ public class TreeNode {
     }
 
 
+    public static void frontForeach(TreeNode node) {
+        if (node != null) {
+            System.out.println(node.value);
+            frontForeach(node.left);
+            frontForeach(node.right);
+        }
+    }
+
     public static void midForeach(TreeNode node) {
-        if(node!=null){
+        if (node != null) {
             midForeach(node.left);
             System.out.println(node.value);
             midForeach(node.right);
         }
     }
+
+    public static void backForeach(TreeNode node) {
+        if (node != null) {
+            backForeach(node.left);
+            backForeach(node.right);
+            System.out.println(node.value);
+        }
+    }
+
 
     public static void main(String[] args) {
         TreeNode t = new TreeNode(33);
@@ -264,8 +270,12 @@ public class TreeNode {
         System.out.println("find=======");
         System.out.println(find(t, 66));
         System.out.println();
+        System.out.println("frontForeach=======");
+        frontForeach(t);
         System.out.println("midForeach=======");
         midForeach(t);
+        System.out.println("backForeach=======");
+        backForeach(t);
 //
 //        System.out.println("del=======");
 //        t = delNode(t, 18);
@@ -291,7 +301,6 @@ public class TreeNode {
         System.out.println("del=======");
         t = delNode(t, 18);
         System.out.println(t);
-
 
 
     }
