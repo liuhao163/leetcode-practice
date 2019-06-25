@@ -167,11 +167,11 @@ public class TreeNode {
         List<TreeNode> eqNodes = new ArrayList<>();
         List<TreeNode> pNodes = new ArrayList<>();
 
-        while (n!=null) {
+        while (n != null) {
             if (v < n.value) {
                 p = n;
                 n = n.left;
-                if(n!=null && n.value==v){
+                if (n != null && n.value == v) {
                     eqNodes.add(n);
                     pNodes.add(p);
                 }
@@ -179,7 +179,7 @@ public class TreeNode {
                 p = n;
                 n = n.right;
 
-                if(n!=null && n.value==v){
+                if (n != null && n.value == v) {
                     eqNodes.add(n);
                     pNodes.add(p);
                 }
@@ -190,7 +190,7 @@ public class TreeNode {
             return tree;
         }
 
-        for (int i = eqNodes.size()-1;i>=0;i--) {
+        for (int i = eqNodes.size() - 1; i >= 0; i--) {
             TreeNode node = eqNodes.get(i);
             TreeNode parent = pNodes.get(i);
 
@@ -233,6 +233,15 @@ public class TreeNode {
 
     }
 
+
+    public static void midForeach(TreeNode node) {
+        if(node!=null){
+            midForeach(node.left);
+            System.out.println(node.value);
+            midForeach(node.right);
+        }
+    }
+
     public static void main(String[] args) {
         TreeNode t = new TreeNode(33);
         insertNode(t, 16);
@@ -254,6 +263,9 @@ public class TreeNode {
         System.out.println(t);
         System.out.println("find=======");
         System.out.println(find(t, 66));
+        System.out.println();
+        System.out.println("midForeach=======");
+        midForeach(t);
 //
 //        System.out.println("del=======");
 //        t = delNode(t, 18);
@@ -279,6 +291,7 @@ public class TreeNode {
         System.out.println("del=======");
         t = delNode(t, 18);
         System.out.println(t);
+
 
 
     }
