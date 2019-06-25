@@ -147,31 +147,30 @@ public class TreeNode {
     }
 
     public static TreeNode delNode(TreeNode tree, int v) {
-        if (tree == null)
-            return null;
 
-        TreeNode p = null;
-        TreeNode n = tree;
+        TreeNode node = tree;
 
         List<TreeNode> eqNodes = new ArrayList<>();
         List<TreeNode> pNodes = new ArrayList<>();
 
-        while (n != null) {
-            if (v < n.value) {
-                p = n;
-                n = n.left;
-                if (n != null && n.value == v) {
-                    eqNodes.add(n);
-                    pNodes.add(p);
+        //查找
+        while (node != null) {
+            if (v < node.value) {
+                if (node.left!=null && node.left.value == v) {
+                    eqNodes.add(node.left);
+                    pNodes.add(node);
                 }
-            } else if (v >= n.value) {
-                p = n;
-                n = n.right;
 
-                if (n != null && n.value == v) {
-                    eqNodes.add(n);
-                    pNodes.add(p);
+//                parent = node;
+                node = node.left;
+            } else {
+                if (node.right!=null && node.right.value == v) {
+                    eqNodes.add(node.right);
+                    pNodes.add(node);
                 }
+
+//                parent = node;
+                node = node.right;
             }
         }
 
@@ -180,23 +179,21 @@ public class TreeNode {
         }
 
         for (int i = eqNodes.size() - 1; i >= 0; i--) {
-            TreeNode node = eqNodes.get(i);
+            node = eqNodes.get(i);
             TreeNode parent = pNodes.get(i);
 
-            //如果俩个子树都存在，
-            // 找第一个比他大的数（右子树的左子树叶子节点）
-            // 将这个待删除节点替换成叶子节点，然后删除这个叶子节点
             while (node.left != null && node.right != null) {
-                TreeNode rightMin = node.right;
-                TreeNode rightMinParent = node;
-                while (rightMin.left != null) {
-                    rightMinParent = rightMin;
-                    rightMin = rightMin.left;
+                TreeNode minNode = node.right;
+                TreeNode minPNode = node;
+                while (minNode.left != null) {
+                    minPNode = minNode;
+                    minNode = minPNode.left;
                 }
 
-                node.value = rightMin.value;
-                parent = rightMinParent;
-                node = rightMin;
+                node.value = minNode.value;
+
+                node = minNode;
+                parent = minPNode;
             }
 
             TreeNode child = null;
@@ -208,10 +205,7 @@ public class TreeNode {
 
             if (parent == null) {
                 tree = child;
-                return tree;
-            }
-
-            if (node.value < parent.value) {
+            } else if (node.value < parent.value) {
                 parent.left = child;
             } else {
                 parent.right = child;
@@ -277,9 +271,9 @@ public class TreeNode {
         System.out.println("backForeach=======");
         backForeach(t);
 //
-//        System.out.println("del=======");
-//        t = delNode(t, 18);
-//        System.out.println(t);
+        System.out.println("del=======");
+        t = delNode(t, 18);
+        System.out.println(t);
 
         System.out.println("find min=======");
         System.out.println(findMinNode(t));
