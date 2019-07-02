@@ -147,13 +147,10 @@ public class TreeNode {
     }
 
     public static TreeNode delNode(TreeNode tree, int v) {
-
+        //遍历树，找到相等节点放在eqNodes父节点放在pNodes
         TreeNode node = tree;
-
         List<TreeNode> eqNodes = new ArrayList<>();
         List<TreeNode> pNodes = new ArrayList<>();
-
-        //查找
         while (node != null) {
             if (v < node.value) {
                 if (node.left!=null && node.left.value == v) {
@@ -161,27 +158,27 @@ public class TreeNode {
                     pNodes.add(node);
                 }
 
-//                parent = node;
                 node = node.left;
             } else {
                 if (node.right!=null && node.right.value == v) {
                     eqNodes.add(node.right);
                     pNodes.add(node);
                 }
-
-//                parent = node;
                 node = node.right;
             }
         }
 
+        //没有相等的
         if (eqNodes.size() == 0) {
             return tree;
         }
 
+        //后续遍历相等的节点一次删除
         for (int i = eqNodes.size() - 1; i >= 0; i--) {
             node = eqNodes.get(i);
             TreeNode parent = pNodes.get(i);
 
+            //同时有左右子树，找到右子树里最小的节点和父节点，将右子树最小的节点的值复制给之前要删除的节点
             while (node.left != null && node.right != null) {
                 TreeNode minNode = node.right;
                 TreeNode minPNode = node;
@@ -190,12 +187,14 @@ public class TreeNode {
                     minNode = minPNode.left;
                 }
 
+                //复制
                 node.value = minNode.value;
-
+                //删除右子树最小的节点
                 node = minNode;
                 parent = minPNode;
             }
 
+            //找到child树，不会出现左右子树同时存在的情况：P
             TreeNode child = null;
             if (node.left != null) {
                 child = node.left;
@@ -203,6 +202,7 @@ public class TreeNode {
                 child = node.right;
             }
 
+            //开始删除如果parent是空，删的是根节点，如果node<parent删除的是左子树，反之是右子树
             if (parent == null) {
                 tree = child;
             } else if (node.value < parent.value) {
