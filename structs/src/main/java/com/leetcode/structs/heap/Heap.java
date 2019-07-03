@@ -5,18 +5,18 @@ import java.util.Arrays;
 /**
  * @author <a href=mailto:ericliu@fivewh.com>ericliu</a>,Date:2019/7/1
  */
-public class Heap1 {
+public class Heap {
 
     private int array[];
     private int count = 0;
     private int capacity;
 
-    public Heap1(int capacity) {
+    public Heap(int capacity) {
         this.array = new int[capacity + 1];
         this.capacity = capacity;
     }
 
-    private Heap1(int[] array) {
+    private Heap(int[] array) {
         this.array = array;
         this.capacity = array.length - 1;
     }
@@ -52,12 +52,12 @@ public class Heap1 {
         heapify(array, count, 1);
     }
 
-    public static Heap1 buildHeap(int array[]) {
+    public static Heap buildHeap(int array[]) {
         for (int i = array.length / 2-1; i >= 1; --i) {
             heapify(array, array.length-1, i);
         }
 
-        return new Heap1(array);
+        return new Heap(array);
     }
 
     public static int[] sort(int array[]) {

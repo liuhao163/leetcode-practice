@@ -29,18 +29,20 @@ public class HeapZero {
     }
 
     public void insert(int value) {
-        if (count == array.length) {
+        if (count == capacity) {
+            System.out.println("堆已经满了");
             return;
         }
+
         array[count] = value;
         int i = count;
         count++;
-        while (i / 2 - 1 > 0) {
-            int parentIdx = i / 2 - 1;
-            if (array[i] > array[parentIdx]) {
-                swap(array, parentIdx, i);
+        while (i > 0) {
+            int pIdx=(i - 1) / 2;
+            if (array[i] > array[pIdx]) {
+              swap(array,i,pIdx);
             }
-            i = parentIdx;
+            i=pIdx;
         }
     }
 
