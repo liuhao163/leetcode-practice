@@ -61,40 +61,41 @@ public class Heap {
     }
 
     public static void buildHeap(int a[]) {
-        for (int i = a.length / 2-1; i >= 0; i--) {
-            heapify(a, a.length , i);
+        for (int i = a.length / 2 - 1; i >= 0; i--) {
+            heapify(a, a.length - 1, i);
         }
     }
 
 
     public static int[] sort(int a[]) {
         buildHeap(a);
-        System.out.println("buildHeap:"+Arrays.toString(a));
+        System.out.println("buildHeap=" + Arrays.toString(a));
+
         int swapIdx = a.length - 1;
         while (swapIdx > 0) {
-
-            swap(a, 0, swapIdx);
+            swap(a, swapIdx, 0);
             swapIdx--;
-            heapify(a,swapIdx,0);
+            heapify(a, swapIdx, 0);
         }
+
         return a;
     }
 
     //堆化操作
     private static void heapify(int[] a, int heapCapicity, int i) {
         while (true) {
-            int top = i;
-            if (2 * i + 1 <= heapCapicity && a[top] < a[2 * i + 1]) {
-                top = 2 * i + 1;
+            int tmp = i;
+            if (2 * i + 1 <= heapCapicity && a[tmp] < a[2 * i + 1]) {
+                tmp = 2 * i + 1;
             }
-            if (2 * (i + 1) <= heapCapicity && a[top] < a[2 * (i + 1)]) {
-                top = 2 * (i + 1);
+            if (2 * (i + 1) <= heapCapicity && a[tmp] < a[2 * (i + 1)]) {
+                tmp = 2 * (i + 1);
             }
-            if (top == i) {
+            if (tmp == i) {
                 break;
             }
-            swap(a, top, i);
-            i = top;
+            swap(a, i, tmp);
+            i = tmp;
         }
     }
 
