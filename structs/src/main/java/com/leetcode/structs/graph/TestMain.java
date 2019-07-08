@@ -12,8 +12,7 @@ import java.util.List;
 public class TestMain {
     private static List<Graph> list=new ArrayList<>();
 
-
-    public static void initGraph(){
+    public static void main(String[] args) {
         Graph graph0=new Graph(0);
         Graph graph1=new Graph(1);
         Graph graph2=new Graph(2);
@@ -61,10 +60,12 @@ public class TestMain {
         list.add(graph5);
         list.add(graph6);
         list.add(graph7);
-    }
 
-    public static void main(String[] args) {
-        initGraph();
-        System.out.println(list);
+        Graph.bfs(list,graph6);
+
+        System.out.println();
+        System.out.println("========sfs");
+        Graph.sfs(list,graph6);
+
     }
 }
