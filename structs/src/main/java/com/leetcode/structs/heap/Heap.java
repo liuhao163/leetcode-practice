@@ -12,84 +12,90 @@ public class Heap {
     private int capacity;
 
     public Heap(int capacity) {
-        this.array = new int[capacity + 1];
-        this.capacity = capacity;
+        this.array = new int[capacity];
+        this.capacity = array.length;
     }
 
-    private Heap(int[] array) {
-        this.array = array;
-        this.capacity = array.length - 1;
+    public int[] getArray() {
+        return array;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     public void insert(int value) {
-        if (count >= capacity) {
+        if (count == capacity) {
+            System.out.println("堆已经满了");
             return;
         }
 
-        count++;
         array[count] = value;
-
-        //堆从后往前
         int i = count;
-        while (i / 2 > 0) {
-            if (array[i] > array[i / 2]) {
-                swap(array, i, i / 2);
+        count++;
+        while (i > 0) {
+            int pIdx = (i - 1) / 2;
+            if (array[i] > array[pIdx]) {
+                swap(array, i, pIdx);
             }
-
-            i = i / 2;
+            i = pIdx;
         }
     }
 
     //删除堆顶
     public void delTop() {
+        //删空了
         if (count == 0) {
             return;
         }
 
-        array[1] = array[count];
-        array[count] = 0;
+        //为了防止空洞直接，将最后一位数据和堆顶交换，删除最后一位数据，然后将新的堆顶自上而下的堆化
+        array[0] = array[count - 1];
+        array[count - 1] = 0;
         count--;
-        heapify(array, count, 1);
+        heapify(array, count - 1, 0);
     }
 
-    public static Heap buildHeap(int array[], int n) {
-        for (int i = n / 2; i >= 1; --i) {
-            heapify(array, n, i);
+    public static void buildHeap(int a[]) {
+        for (int i = a.length / 2 - 1; i >= 0; i--) {
+            heapify(a, a.length - 1, i);
         }
-
-        return new Heap(array);
     }
 
-    public static int[] sort(int array[]) {
-        buildHeap(array, array.length - 1);
 
-        int l = array.length - 1;
-        while (l > 1) {
-            swap(array, 1, l);
-            l--;
-            heapify(array, l, 1);
+    public static int[] sort(int a[]) {
+        buildHeap(a);
+        System.out.println("buildHeap=" + Arrays.toString(a));
+
+        int swapIdx = a.length - 1;
+        while (swapIdx > 0) {
+            swap(a, swapIdx, 0);
+            swapIdx--;
+            heapify(a, swapIdx, 0);
         }
 
-        return array;
+        return a;
     }
 
     //堆化操作
-    private static void heapify(int[] array, int heapCapicity, int i) {
-        int last = -1;
+    private static void heapify(int[] a, int heapCapicity, int i) {
         while (true) {
-            last = i;
-            if (i * 2 <= heapCapicity && array[last] <= array[i * 2]) {
-                last = i * 2;
+            int tmp = i;
+            if (2 * i + 1 <= heapCapicity && a[tmp] < a[2 * i + 1]) {
+                tmp = 2 * i + 1;
             }
-            if (i * 2 + 1 <= heapCapicity && array[last] <= array[i * 2 + 1]) {
-                last = i * 2 + 1;
+            if (2 * (i + 1) <= heapCapicity && a[tmp] < a[2 * (i + 1)]) {
+                tmp = 2 * (i + 1);
             }
-            if (i != last) {
-                swap(array, last, i);
-            } else {
+            if (tmp == i) {
                 break;
             }
-            i = last;
+            swap(a, i, tmp);
+            i = tmp;
         }
     }
 
