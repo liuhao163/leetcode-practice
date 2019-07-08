@@ -1,7 +1,6 @@
 package com.leetcode.structs.graph;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,17 +9,17 @@ import java.util.List;
  * Description:
  */
 public class TestMain {
-    private static List<Graph> list=new ArrayList<>();
+    private static List<Vertex> list=new ArrayList<>();
 
     public static void main(String[] args) {
-        Graph graph0=new Graph(0);
-        Graph graph1=new Graph(1);
-        Graph graph2=new Graph(2);
-        Graph graph3=new Graph(3);
-        Graph graph4=new Graph(4);
-        Graph graph5=new Graph(5);
-        Graph graph6=new Graph(6);
-        Graph graph7=new Graph(7);
+        Vertex graph0=new Vertex(0);
+        Vertex graph1=new Vertex(1);
+        Vertex graph2=new Vertex(2);
+        Vertex graph3=new Vertex(3);
+        Vertex graph4=new Vertex(4);
+        Vertex graph5=new Vertex(5);
+        Vertex graph6=new Vertex(6);
+        Vertex graph7=new Vertex(7);
 
         graph0.addAdj(graph1);
         graph1.addAdj(graph0);
@@ -61,11 +60,13 @@ public class TestMain {
         list.add(graph6);
         list.add(graph7);
 
-        Graph.bfs(list,graph6);
-
-        System.out.println();
-        System.out.println("========sfs");
-        Graph.sfs(list,graph6);
+        BFS bfs=new BFS(list);
+        bfs.search(list.get(6));
+        System.out.println("\n========dfs");
+        DFS dfs=new DFS(list);
+        dfs.search(list.get(6));
+        System.out.println("\n");
+//        Vertex.sfs(list,graph6);
 
     }
 }
