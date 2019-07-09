@@ -60,13 +60,17 @@ public class TestMain {
         list.add(graph6);
         list.add(graph7);
 
+        System.out.println("\n========bfs");
         BFS bfs=new BFS(list);
         bfs.search(list.get(6));
+        System.out.println("\n========bfs get by degree");
+        System.out.println(new BFS(list).searchByDegree(list,2));
         System.out.println("\n========dfs");
         DFS dfs=new DFS(list);
         dfs.search(list.get(6));
         System.out.println("\n");
 //        Vertex.sfs(list,graph6);
+
 
     }
 }

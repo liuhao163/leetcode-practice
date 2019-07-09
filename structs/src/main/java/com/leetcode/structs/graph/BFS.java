@@ -27,7 +27,7 @@ public class BFS {
 
         while (queue.size() > 0) {
             Vertex v = queue.poll();
-            for(Vertex adjV:v.getAdj()){
+            for (Vertex adjV : v.getAdj()) {
                 if (visited.contains(adjV)) {
                     continue;
                 }
@@ -42,5 +42,43 @@ public class BFS {
                 queue.add(adjV);
             }
         }
+    }
+
+    /**
+     * 搜索n度还有
+     *
+     * @param list
+     * @param degree
+     * @return
+     */
+    public List<Vertex> searchByDegree(List<Vertex> list, int degree) {
+        queue.add(list.get(0));
+        visited.add(list.get(0));
+
+        int i = 0;
+
+        List<Vertex> ret = new ArrayList<>();
+
+        while (queue.size() > 0) {
+            Vertex v = queue.poll();
+            if (i > degree) {
+                break;
+            }
+
+            i++;
+            for (Vertex adjV : v.getAdj()) {
+                if (visited.contains(adjV)) {
+                    continue;
+                }
+
+                visited.add(adjV);
+                if (i == degree) {
+                    ret.add(adjV);
+                }
+                queue.add(adjV);
+            }
+        }
+
+        return ret;
     }
 }
