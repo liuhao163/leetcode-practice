@@ -52,21 +52,22 @@ public class BFS {
      * @return
      */
     public List<Vertex> searchByDegree(List<Vertex> list, int degree) {
-        queue.add(list.get(0));
-        visited.add(list.get(0));
+        LinkedList<DegreeVertex> queue = new LinkedList<>();
+        Set<Vertex> visited = new HashSet<>();
 
         int i = 0;
+        queue.add(new DegreeVertex(i, list.get(0)));
+        visited.add(list.get(0));
+
 
         List<Vertex> ret = new ArrayList<>();
-
         while (queue.size() > 0) {
-            Vertex v = queue.poll();
-            if (i > degree) {
+            DegreeVertex degreeVertex = queue.poll();
+            if (degreeVertex.getDegree() > degree) {
                 break;
             }
-
-            i++;
-            for (Vertex adjV : v.getAdj()) {
+            i = degreeVertex.getDegree() + 1;
+            for (Vertex adjV : degreeVertex.vertex.getAdj()) {
                 if (visited.contains(adjV)) {
                     continue;
                 }
@@ -75,10 +76,28 @@ public class BFS {
                 if (i == degree) {
                     ret.add(adjV);
                 }
-                queue.add(adjV);
+                queue.add(new DegreeVertex(i, adjV));
             }
         }
 
         return ret;
+    }
+
+    class DegreeVertex {
+        private int degree;
+        private Vertex vertex;
+
+        public DegreeVertex(int degree, Vertex g) {
+            this.degree = degree;
+            this.vertex = g;
+        }
+
+        public int getDegree() {
+            return degree;
+        }
+
+        public Vertex getG() {
+            return vertex;
+        }
     }
 }

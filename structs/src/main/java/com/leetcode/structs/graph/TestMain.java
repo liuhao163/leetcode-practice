@@ -64,7 +64,7 @@ public class TestMain {
         BFS bfs=new BFS(list);
         bfs.search(list.get(6));
         System.out.println("\n========bfs get by degree");
-        System.out.println(new BFS(list).searchByDegree(list,2));
+        System.out.println(new BFS(list).searchByDegree(list,3));
         System.out.println("\n========dfs");
         DFS dfs=new DFS(list);
         dfs.search(list.get(6));
