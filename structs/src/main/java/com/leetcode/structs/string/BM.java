@@ -64,9 +64,9 @@ public class BM {
              *
              */
             int x = j - getBadCodeIndex(s[i + j]);
-            int y=0;
+            int y = 0;
             if (j < pattern.length - 1) {
-                 y= moveGS(j, pattern.length, suffix, prefix);
+                y = moveGS(j, pattern.length, suffix, prefix);
             }
             int ret = Math.max(x, y);
             i = i + ret;
@@ -122,7 +122,7 @@ public class BM {
         } else {
             //为什么是j+2，因为j+1如果是true说明，整个公共后缀同时是公共前缀，不会走到这个分支会走到上面
             for (int i = j + 2; i <= m - 1; i++) {
-                int prefixLength = m - 1 - i;
+                int prefixLength = m - i;//m-1-i+1(m-1-i+1 取得的长度没有包含i本身，所以+1)
                 if (prefix[prefixLength]) {
                     return i;
                 }
