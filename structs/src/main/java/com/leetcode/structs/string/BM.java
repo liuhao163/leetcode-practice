@@ -133,7 +133,7 @@ public class BM {
 
 
     public static void main(String[] args) {
-        System.out.println(new BM("abcdfge".toCharArray(), "fg".toCharArray()).search());
+        System.out.println(new BM("ababaeababacdbac".toCharArray(), "ababacd".toCharArray()).search());
 
 //        char[] pattern = "cabcab".toCharArray();
 //        int[] suffix = null;
