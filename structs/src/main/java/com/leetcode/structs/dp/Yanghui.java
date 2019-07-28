@@ -12,10 +12,10 @@ public class Yanghui {
         int state[][] = new int[5][5];
         state[0][0] = matrix[0][0];
         for (int i = 1; i < matrix.length; i++) {
-            int v = -1;
+            int v = Integer.MAX_VALUE;
             for (int j = 0; j < matrix[i].length - 1; j++) {
                 if (state[i - 1][j] > 0) {
-                    if (v < -1 || v < state[i - 1][j] + matrix[i][j]) {
+                    if (state[i - 1][j] + matrix[i][j] < v ) {
                         v = state[i - 1][j] + matrix[i][j];
                     }
                     state[i][j] = v;
@@ -23,9 +23,9 @@ public class Yanghui {
             }
         }
 
-        int min = 0;
+        int min = Integer.MAX_VALUE;
         for (int j = 0; j < 5; j++) {
-           if(min==0 || min<state[4][j]){
+           if(state[4][j]!=0&& state[4][j]<min){
                min=state[4][j];
            }
         }
