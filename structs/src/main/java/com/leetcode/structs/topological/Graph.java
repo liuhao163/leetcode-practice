@@ -2,8 +2,6 @@ package com.leetcode.structs.topological;
 
 import java.util.*;
 
-import static com.sun.tools.javac.jvm.ByteCodes.ret;
-
 /**
  * @Author: liuhaoeric
  * Create time: 2019/08/01
