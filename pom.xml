@@ -11,5 +11,6 @@
     <modules>
         <module>leetcode</module>
         <module>structs</module>
+        <module>rocketmq</module>
     </modules>
 </project>
