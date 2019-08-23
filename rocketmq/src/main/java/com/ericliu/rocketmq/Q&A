@@ -1,0 +1,15 @@
+//todo 生产者和消费者如何连接的
+
+//todo 有3种发送方式，分别如何实现的
+//todo 默认是同步的等待发送成功后获取结果
+//todo sendOneWay是单向发送，适合Log的搜集
+//todo callback是异步发送
+
+//todo 消费者如何保续消费
+//todo 消费者如何
+//todo 消费者如何过滤
+//todo 消息是如何被pull的
+
+//todo broker和topic和group关系
+//todo 集群消息的同步
+//todo 消息如何去保存的总共有几个文件，这些文件做什么用

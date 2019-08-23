@@ -53,16 +53,16 @@ public class Consumer {
 
 
     public static void main(String[] args) {
-        receiveMsg(topicName2);
+        receiveMsg(topicName2,"tag0||tag1");
     }
-    public static void receiveMsg(final String topicName){
+    public static void receiveMsg(final String topicName,String tagExp){
 
         // 获取消息生产者
         DefaultMQPushConsumer consumer = Consumer.getDefaultMQPushConsumer("liuhao-g-1");
         //
         //        // 订阅主体
         try {
-            consumer.subscribe(topicName, "tag0||tag1");
+            consumer.subscribe(topicName, tagExp);
 
             //todo MessageListenerConcurrently
             consumer.registerMessageListener(new MessageListenerConcurrently() {
@@ -70,6 +70,7 @@ public class Consumer {
                 /**
                  * * 默认msgs里唯独一条消息，能够通过设置consumeMessageBatchMaxSize參数来批量接收消息
                  */
+                @Override
                 public ConsumeConcurrentlyStatus consumeMessage(
                         List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
 

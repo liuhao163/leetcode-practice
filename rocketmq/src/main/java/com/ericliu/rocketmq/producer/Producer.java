@@ -17,7 +17,6 @@ import static com.ericliu.rocketmq.consant.Constant.topicName2;
  * Description:
  */
 public class Producer {
-    //todo 什么是sendOneway ,sendCallback
 
     private static DefaultMQProducer producer;
     private static int initialState = 0;
@@ -68,18 +67,18 @@ public class Producer {
                     key,
                     body.getBytes());
 //            SendResult sendResult = producer.send(msg);
-            producer.send(msg,new SendCallback() {
-                @Override
-                public void onSuccess(SendResult sendResult) {
-                    System.out.println("producer sendResult="+sendResult);
-                }
-                @Override
-                public void onException(Throwable e) {
-                    System.out.printf("%-10d Exception %s %n", -1, e);
-                    e.printStackTrace();
-                }
-            });
-            //logger.info("sendResult:{}", sendResult);
+            producer.sendOneway(msg);
+//            producer.send(msg,new SendCallback() {
+//                @Override
+//                public void onSuccess(SendResult sendResult) {
+//                    System.out.println("producer sendResult="+sendResult);
+//                }
+//                @Override
+//                public void onException(Throwable e) {
+//                    System.out.printf("%-10d Exception %s %n", -1, e);
+//                    e.printStackTrace();
+//                }
+//            });
 //            System.out.println(sendResult);
         } catch (MQClientException e) {
             // TODO Auto-generated catch block
@@ -91,6 +90,9 @@ public class Producer {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+//        catch (MQBrokerException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }
