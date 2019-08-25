@@ -1,11 +1,17 @@
 package com.ericliu.rocketmq.producer;
 
+import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.selector.SelectMessageQueueByHash;
 import org.apache.rocketmq.common.message.Message;
+import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
+
+import java.util.List;
 
 import static com.ericliu.rocketmq.consant.Constant.NAME_ADDR;
 import static com.ericliu.rocketmq.consant.Constant.topicName2;
@@ -47,17 +53,19 @@ public class Producer {
 
 
     public static void main(String[] args) {
-        producer=getDefaultMQProducer();
+        producer = getDefaultMQProducer();
         for (int i = 0; i < 100; i++) {
             int tagIdx = i % 3;
-            sendMsg(producer,"tag" + tagIdx, "orider_" + i, "this is order id is " + i);
+//            sendMsg(producer, "tag" + tagIdx, "orider_" + i, "this is order id is " + i);
+            sendMsgOrderly(producer, "tag" + tagIdx, "orider_" + i, "this is order id is " + i, 1);
         }
-        while(true){}
+        while (true) {
+        }
 //        producer.shutdown();
     }
 
 
-    public static void sendMsg(DefaultMQProducer producer,String tag, String key, String body) {
+    public static void sendMsg(DefaultMQProducer producer, String tag, String key, String body) {
 
         try {
             Message msg = new Message(
@@ -65,33 +73,75 @@ public class Producer {
                     tag,
                     key,
                     body.getBytes());
-//            SendResult sendResult = producer.send(msg);
+            SendResult sendResult = producer.send(msg);
+            System.out.println(sendResult);
 //            producer.sendOneway(msg);
-            producer.send(msg,new SendCallback() {
-                @Override
-                public void onSuccess(SendResult sendResult) {
-                    System.out.println("producer sendResult="+sendResult);
-                }
-                @Override
-                public void onException(Throwable e) {
-                    System.out.printf("%-10d Exception %s %n", -1, e);
-                    e.printStackTrace();
-                }
-            });
-//            System.out.println(sendResult);
+//            producer.send(msg,new SendCallback() {
+//                @Override
+//                public void onSuccess(SendResult sendResult) {
+//                    System.out.println("producer sendResult="+sendResult);
+//                }
+//                @Override
+//                public void onException(Throwable e) {
+//                    System.out.printf("%-10d Exception %s %n", -1, e);
+//                    e.printStackTrace();
+//                }
+//            });
         } catch (MQClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (RemotingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
         }
-//        catch (MQBrokerException e) {
-//            e.printStackTrace();
-//        }
+    }
+
+
+    public static void sendMsgOrderly(DefaultMQProducer producer, String tag, String key, String body, Integer no) {
+
+        try {
+            Message msg = new Message(
+                    topicName2,
+                    tag,
+                    key,
+                    body.getBytes());
+            SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
+                @Override
+                public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
+                    int id = Integer.parseInt(arg.toString());
+                    return mqs.get(id % mqs.size());
+                }
+            }, no);
+            System.out.println(sendResult);
+//            producer.sendOneway(msg);
+//            producer.send(msg,new SendCallback() {
+//                @Override
+//                public void onSuccess(SendResult sendResult) {
+//                    System.out.println("producer sendResult="+sendResult);
+//                }
+//                @Override
+//                public void onException(Throwable e) {
+//                    System.out.printf("%-10d Exception %s %n", -1, e);
+//                    e.printStackTrace();
+//                }
+//            });
+        } catch (MQClientException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (RemotingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
+        }
     }
 
 }

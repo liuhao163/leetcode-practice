@@ -3,15 +3,14 @@ package com.ericliu.rocketmq.consumer;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
-import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import org.apache.rocketmq.client.consumer.listener.*;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static com.ericliu.rocketmq.consant.Constant.NAME_ADDR;
@@ -36,6 +35,8 @@ public class Consumer {
         BasicConfigurator.configure();
     }
 
+    HashSet<String> laterId = new HashSet<String>();
+
     public Consumer(String consumerGruop) {
         consumer = new DefaultMQPushConsumer(consumerGruop);
         consumer.setNamesrvAddr(NAME_ADDR);
@@ -44,8 +45,8 @@ public class Consumer {
 
 
     public static void main(String[] args) {
-        Consumer c=new Consumer("liuhao-g");
-        c.receiveMsg(topicName2, "tag0||tag1");
+        Consumer c = new Consumer("liuhao-g");
+        c.receiveMsgOrderly(topicName2, "*");
     }
 
     public void receiveMsg(final String topicName, String tagExp) {
@@ -87,6 +88,48 @@ public class Consumer {
                     }
 
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                }
+            });
+
+            /**
+             * Consumer对象在使用之前必须要调用start初始化。初始化一次就可以<br>
+             */
+            consumer.start();
+
+            logger.info("Consumer Started.");
+        } catch (MQClientException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void receiveMsgOrderly(final String topicName, String tagExp) {
+        //        // 订阅主体
+        try {
+            consumer.subscribe(topicName, tagExp);
+
+            //todo MessageListenerConcurrently
+            consumer.registerMessageListener(new MessageListenerOrderly() {
+
+                @Override
+                public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
+
+
+                    MessageExt msg = msgs.get(0);
+
+                    if(msg.getKeys().equals("orider_10")){
+                        if (!laterId.contains(msg.getKeys())) {
+                            laterId.add(msg.getKeys());
+                            try {
+                                Thread.sleep(10000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT;
+                    }
+                    System.out.println("+++++>Tag:" + msg.getTags() + " ,Key:" + msg.getKeys() + "  Body:" + new String(msg.getBody()));
+                    return ConsumeOrderlyStatus.SUCCESS;
                 }
             });
 
