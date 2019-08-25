@@ -2,6 +2,8 @@ package com.ericliu.rocketmq.producer;
 
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
@@ -64,18 +66,18 @@ public class Producer {
                     key,
                     body.getBytes());
 //            SendResult sendResult = producer.send(msg);
-            producer.sendOneway(msg);
-//            producer.send(msg,new SendCallback() {
-//                @Override
-//                public void onSuccess(SendResult sendResult) {
-//                    System.out.println("producer sendResult="+sendResult);
-//                }
-//                @Override
-//                public void onException(Throwable e) {
-//                    System.out.printf("%-10d Exception %s %n", -1, e);
-//                    e.printStackTrace();
-//                }
-//            });
+//            producer.sendOneway(msg);
+            producer.send(msg,new SendCallback() {
+                @Override
+                public void onSuccess(SendResult sendResult) {
+                    System.out.println("producer sendResult="+sendResult);
+                }
+                @Override
+                public void onException(Throwable e) {
+                    System.out.printf("%-10d Exception %s %n", -1, e);
+                    e.printStackTrace();
+                }
+            });
 //            System.out.println(sendResult);
         } catch (MQClientException e) {
             // TODO Auto-generated catch block

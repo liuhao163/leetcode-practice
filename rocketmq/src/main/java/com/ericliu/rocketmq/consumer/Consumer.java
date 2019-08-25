@@ -28,38 +28,27 @@ public class Consumer {
     /*
      * Constructs a client instance with your account for accessing DefaultMQConsumer
      */
-    private static DefaultMQPushConsumer consumer;
     private static int initialState = 0;
-    static{
+
+    private DefaultMQPushConsumer consumer;
+
+    static {
         BasicConfigurator.configure();
     }
-    private Consumer() {
 
-    }
-
-    public static DefaultMQPushConsumer getDefaultMQPushConsumer(String consumerGruop){
-        if(consumer == null){
-            consumer = new DefaultMQPushConsumer(consumerGruop);
-        }
-
-        if(initialState == 0){
-            consumer.setNamesrvAddr(NAME_ADDR);
-            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-            initialState = 1;
-        }
-
-        return consumer;
+    public Consumer(String consumerGruop) {
+        consumer = new DefaultMQPushConsumer(consumerGruop);
+        consumer.setNamesrvAddr(NAME_ADDR);
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
     }
 
 
     public static void main(String[] args) {
-        receiveMsg(topicName2,"tag0||tag1");
+        Consumer c=new Consumer("liuhao-g");
+        c.receiveMsg(topicName2, "tag0||tag1");
     }
-    public static void receiveMsg(final String topicName,String tagExp){
 
-        // 获取消息生产者
-        DefaultMQPushConsumer consumer = Consumer.getDefaultMQPushConsumer("liuhao-g-1");
-        //
+    public void receiveMsg(final String topicName, String tagExp) {
         //        // 订阅主体
         try {
             consumer.subscribe(topicName, tagExp);
@@ -74,7 +63,7 @@ public class Consumer {
                 public ConsumeConcurrentlyStatus consumeMessage(
                         List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
 
-                    System.out.println("currentThreadName:"+Thread.currentThread().getName()+" and Receive New Messages:"+msgs);
+                    System.out.println("currentThreadName:" + Thread.currentThread().getName() + " and Receive New Messages:" + msgs);
 
                     MessageExt msg = msgs.get(0);
 
@@ -82,19 +71,19 @@ public class Consumer {
                         // 运行TopicTest1的消费逻辑
                         if (msg.getTags() != null && msg.getTags().equals("tag0")) {
                             // 运行TagA的消费
-                            System.out.println("====>Tag:"+msg.getTags()+" ,Key:"+msg.getKeys()+"  Body:"+new String(msg.getBody()));
+                            System.out.println("====>Tag:" + msg.getTags() + " ,Key:" + msg.getKeys() + "  Body:" + new String(msg.getBody()));
                         } else if (msg.getTags() != null
                                 && msg.getTags().equals("tag1")) {
                             // 运行TagC的消费
-                            System.out.println("---->Tag:"+msg.getTags()+" ,Key:"+msg.getKeys()+"  Body:"+new String(msg.getBody()));
+                            System.out.println("---->Tag:" + msg.getTags() + " ,Key:" + msg.getKeys() + "  Body:" + new String(msg.getBody()));
                         } else if (msg.getTags() != null
                                 && msg.getTags().equals("tag2")) {
                             // 运行TagD的消费
-                            System.out.println("+++++>Tag:"+msg.getTags()+" ,Key:"+msg.getKeys()+"  Body:"+new String(msg.getBody()));
+                            System.out.println("+++++>Tag:" + msg.getTags() + " ,Key:" + msg.getKeys() + "  Body:" + new String(msg.getBody()));
                         }
-                    } else  {
+                    } else {
                         // 运行TopicTest2的消费逻辑
-                        System.out.println("Other topic Tag:"+msg.getTags()+" ,Key:"+msg.getKeys()+"  Body:"+new String(msg.getBody()));
+                        System.out.println("Other topic Tag:" + msg.getTags() + " ,Key:" + msg.getKeys() + "  Body:" + new String(msg.getBody()));
                     }
 
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
