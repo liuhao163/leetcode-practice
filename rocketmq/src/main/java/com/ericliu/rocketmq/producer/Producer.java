@@ -1,7 +1,9 @@
 package com.ericliu.rocketmq.producer;
 
+import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
@@ -63,8 +65,8 @@ public class Producer {
                     tag,
                     key,
                     body.getBytes());
-//            SendResult sendResult = producer.send(msg);
-            producer.sendOneway(msg);
+            SendResult sendResult = producer.send(msg);
+//            producer.sendOneway(msg);
 //            producer.send(msg,new SendCallback() {
 //                @Override
 //                public void onSuccess(SendResult sendResult) {
@@ -86,10 +88,9 @@ public class Producer {
         }catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
         }
-//        catch (MQBrokerException e) {
-//            e.printStackTrace();
-//        }
     }
 
 }
