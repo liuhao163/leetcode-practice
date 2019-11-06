@@ -13,5 +13,6 @@
         <module>structs</module>
         <module>rocketmq</module>
         <module>toy</module>
+        <module>jetty</module>
     </modules>
 </project>
