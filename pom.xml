@@ -14,5 +14,6 @@
         <module>rocketmq</module>
         <module>toy</module>
         <module>jetty</module>
+        <module>zookeeper</module>
     </modules>
 </project>

@@ -26,5 +26,6 @@ public class RedisBit {
         Long pos = jedis.bitpos("lhbitmap", true);
         System.out.println(pos);
 
+
     }
 }
